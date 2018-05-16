@@ -1,1 +1,16 @@
-Anything
+Intial notes from client;
+wants a game, he a dentist who wants to relaxs pataints with a game.
+keeps them occupied while in he waitng room
+
+timing:
+time frame june (7 weeks)
+
+Hardware:
+running on a laptop
+
+what does the client want"
+hangman, simple and easy to use, quick game that can play for a while, different levels. no offensive words
+Start off with text based aiming for GUI
+
+1st week:
+produce a text based game, show them how it works
