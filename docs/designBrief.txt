@@ -1,0 +1,11 @@
+This is the design brief for sprint 1 of our project.
+
+the goal of this sprint is to create a working, simple, text based game, similar but not limited to hangman. First we must sit down and decide the specifics of this game.
+
+How long will the words be, how many lives will the player get, what will the difficulty of this game be. 
+
+We must then create flow charts of this program to define how exactly it will work. Then we will desk check everything before we begin programming the game.
+
+Once programming is complete we will breifly test to ensure no major flaws in the system.
+
+Than meet with client to discuss additions, removals and graphics.
