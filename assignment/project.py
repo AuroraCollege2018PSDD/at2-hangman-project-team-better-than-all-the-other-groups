@@ -30,7 +30,7 @@ except IO error:
         
     
     #gives user a hint
-Print("Topic: Animals")
+print("Topic: Animals")
 
 livesDisplay = "0 " * n
 print("Number of lives: " + livesDisplay)
