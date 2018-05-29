@@ -32,7 +32,7 @@ except IO error:
     #gives user a hint
 print("Topic: Animals")
 
-livesDisplay = "0 " * n
+livesDisplay = "0 " * lives
 print("Number of lives: " + livesDisplay)
           
 
@@ -47,7 +47,7 @@ While n > 0:
     #we need to wack in a loop that 
     #1. asks for an input 
     #2. updates the underscores to characters (i pedro struggle with arrays lol) 
-    #3. n-1 
+    #3. lives-1 
     #4. displays lives after incorrect answer
     #5. Do we want to do this so that we dont get multiple prints, or so that the last print is erased?? i cant word right.
 
