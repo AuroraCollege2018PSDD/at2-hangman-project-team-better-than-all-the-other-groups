@@ -18,21 +18,30 @@ import time
 n = 7
 lives = 12
 #creating an array of words from the document to be selected.
-wordFile = open("words.txt", "r")
-wordList = wordFile.readlines()
-wordFile.close()
-word = r.choice(wordList)
-word = word.strip()
-#gives user a hint
+try:
+    wordFile = open("words.txt", "r")
+    wordList = wordFile.readlines()
+    wordFile.close()
+    word = r.choice(wordList)
+    word = word.strip()
+
+except IO error:
+    print('error cannot find .txt document")
+        
+    
+    #gives user a hint
 Print("Topic: Animals")
+
+livesDisplay = "0 " * n
+print("Number of lives: " + livesDisplay)
+          
 
 guessStr = '_ ' * len(word)
 print(guessStr)
 #bug checking
 print(word)
 
-livesDisplay = "0 " * n
-print("Number of lives: " + livesDisplay)
+
 
 While n > 0:
     #we need to wack in a loop that 
