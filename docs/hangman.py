@@ -31,16 +31,24 @@ print(displayLives)
 
 #experimental
 
-guess = input("Guess a letter  ")
+
 """
 wrongGuess.append(guess)
 guess = input("Guess a letter  ")
 wrongGuess.append(guess)
 print("Previous Guesses ", wrongGuess)
 """
-
-if guess in word:
-  print("yesi")
-else:
-  print("no")
-          
+while lives >= 0:
+    guess = input("Guess a letter  ")
+    displayLives = "O" * lives
+    print(displayLives)
+    if guess in word:
+      print("yesi")
+      print(guess)
+    else:
+      print("no")
+      lives = lives-1
+      wrongGuess = ''+ guess
+      print('wrong guesses: '+wrongGuess)
+      
+print("you loose")
