@@ -1,0 +1,14 @@
+Data dictionary
+
+This file names all of the variables that are preseted within the code. Please update accordingly
+Variable, what it is, data type
+
+lives, number of lives, int
+wrongGuess, array of wrong guesses, str
+myFile, the document with the word list, .txt
+wordList, Array with words from myFile, str
+word, random word choice from wordList, str
+wordLength, lenght of word, int
+blankSpace , deterimines how many spaces are displayed, str
+displayLives , determines number of lives are displayed, str
+guess, input of a character, str
