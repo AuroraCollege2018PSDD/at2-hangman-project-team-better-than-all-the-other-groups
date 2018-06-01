@@ -15,9 +15,10 @@ __status__ = "Prototype"
 import random as r
 import time
 #variables
-lives = 12
+lives = 4
 wrongGuess = ''
-
+correct = 0
+displayWord = []
 #n stands for number of words in text document
 try:
     myFile = open("words.txt", "r")
@@ -39,7 +40,7 @@ print(wordLength)
 print('hint: Animals')
 #print blank space
 blankSpace = "_ " * wordLength
-print(blankSpace)
+
 
 """
 wrongGuess.append(guess)
@@ -47,19 +48,51 @@ guess = input("Guess a letter  ")
 wrongGuess.append(guess)
 print("Previous Guesses ", wrongGuess)
 """
-while lives >= 0:
-    #print lives
+#def mainGame():
+while lives > 0 and correct < wordLength:
+      #print lives
+    print(blankSpace)
     displayLives = 'lives: '+("O" * lives)
-    print(displayLives)
+    #print(displayLives)
     guess = input("Guess a letter  ")
+    for char in word:
+          if guess == char:
+              print(char)
+          else:
+              print("_ ")
+    print(displayWord)
     if guess in word:
-      print("yesi")
+      print("yes")
       print(guess)
+      correct = correct + 1
     else:
       print("no")
       lives = lives-1
       #shows all wrong guesses
       wrongGuess = wrongGuess+' '+ guess
       print('wrong guesses: '+wrongGuess)
-      
-print("you loose")
+
+#mainGame()
+
+def win():
+    print("Congratulations! You win!!")    
+
+def lose():
+    print("Unlucky, you lose. Better luck next time. The correct word was " + word + ".")
+    
+if correct == wordLength:
+    win()
+else:
+    lose()
+"""    
+playAgain = input("Would you like to play again? y/n ")
+playAgain = playAgain.lower()
+
+if playAgain == "y":
+    mainGame()
+elif playAgain == "n":
+    print("Thanks for playing!")
+else:
+    print("I didn't quite get that. ")
+    playAgain = input("Would you like to play again? y/n ")
+"""
