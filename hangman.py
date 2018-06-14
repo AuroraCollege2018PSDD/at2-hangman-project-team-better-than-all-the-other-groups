@@ -1,13 +1,13 @@
-""" Short, one line description of the module ending with a period.
-A longer description of the module with details that may help the user or anybody
-reviewing the code later. make sure you outline in detail what the module does and how it can be used.
+""" Basic pygame code that is a gui representation of the hangman game.
+This code will have the letters display in box, text will go green when guess right or red when incorrect. Letters are clickable and no
+lives are inplace for guesses as well as a shown hangman.
 """
 
-__author__ = "Your Name"
+__author__ = "Tynan, Pedro and Nicole"
 __license__ = "GPL"
 __version__ = "1.0.1"
-__email__ = "your.address@education.nsw.com.au"
-__status__ = "Prototype, Development or Production"
+__email__ = "tynan.matthews@education.nsw.com.au"
+__status__ = "Development"
 
 #dependencies
 import pygame as P # accesses pygame files
