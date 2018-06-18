@@ -56,6 +56,9 @@ lightBlue = (29, 145, 145)
 
 #clear and fill the screen
 screen.fill(yellow)
+#sets the number of lives
+lives = 12
+looseSound = P.mixer.Sound('explosion.wav')
 
 #define necessary classes
 class renderedLetter(object):
@@ -69,8 +72,8 @@ class renderedLetter(object):
         """ inits the letter"""
         self.text = letter
         self.size = DEFAULT_TEXT_SIZE
-        self.color = black #text color
-        self.backColor = black #text background color
+        self.color = yellow #text color
+        self.backColor = yellow #text background color
         self.x = 10 #where across the screen it is drawn
         self.y = 100 #where down the screen letter is rendered
         self.font = P.font.SysFont("Lucida Console", self.size) #rendered best with monospace font
@@ -86,7 +89,7 @@ class renderedLetter(object):
         
 #define other setup variables
 alphabet = "abcdefghijklmnopqrstuvwxyz"
-vowels = word
+guessWord = word
 
 #create arrays to display the rendered letters
 alphabetArray = [] #an initially empty array
@@ -94,10 +97,10 @@ for letter in alphabet:
     rLetter = renderedLetter(letter) #create an instance of the class renderedLetter
     alphabetArray.append(rLetter)
     
-vowelArray = [] #an initially empty array
-for letter in vowels:
+wordArray = [] #an initially empty array
+for letter in guessWord:
     rLetter = renderedLetter(letter)
-    vowelArray.append(rLetter)
+    wordArray.append(rLetter)
 
 #draw alphabet letters on the screen
 xPosition = 10 #across
@@ -106,14 +109,14 @@ for l in alphabetArray:
     l.x = xPosition #set the x position of the rendered letter
     l.y = yPosition #set the y position of the rendered letter
     l.color = blue #start with letters blue
-    l.backColor = black
+    l.backColor = yellow
     l.update() #changed the properties so need to update
     screen.blit(l.renderedText,l.rectangle) #tell pygame where to draw next screen is flipped
     xPosition += (l.rectangle.width + 10) #move the x position to the right so letters not drawn on top of each other
 
 xPosition = 320
 yPosition = 200
-for l in vowelArray:
+for l in wordArray:
     l.x = xPosition
     l.y = yPosition
     l.color = lightBlue
@@ -130,34 +133,43 @@ play = True  # controls whether to keep playing
 
 # game loop - runs 'loopRate' times a second!
 while play:  # game loop - note:  everything in this loop is indented one tab
-
-    for event in P.event.get():  # get user interaction events
-        if event.type == P.QUIT:  # tests if window's X (close) has been clicked
-            play = False  # causes exit of game loop
+   
+        for event in P.event.get():  # get user interaction events
+            if event.type == P.QUIT:  # tests if window's X (close) has been clicked
+                play = False  # causes exit of game loop
     # your code starts here ##############################
-        elif event.type == P.MOUSEBUTTONDOWN:
-            mousePosition = P.mouse.get_pos() #find out where they clicked
+            elif event.type != P.QUIT:
+                if lives <= 0:
+                    screen.fill(red)
+                    looseSound.play()
+                    #we need to display you loose
+                elif lives > 0:
+                    if event.type == P.MOUSEBUTTONDOWN:
+                        mousePosition = P.mouse.get_pos() #find out where they clicked
             
             #need to check all letters to see if they clicked on that letter
-            for a in alphabetArray:
-                if a.rectangle.collidepoint(mousePosition): #is the mouse click inside the letters rectangle
-                    a.color = red
+                        for a in alphabetArray:
+                            if a.rectangle.collidepoint(mousePosition): #is the mouse click inside the letters rectangle
+                                a.color = red
+                                lives = lives - 1
+                                
                     #a.update()
-                    for v in vowelArray: #check whether that letter is a vowel
-                        if a.text == v.text: #compare text of clicked letter to the vowel text
-                            a.color = green
-                            v.backColor = black
-                            v.update() #made changes so we need to update
-                            screen.blit(v.renderedText, v.rectangle) #need to re-blit
-                    a.update() #made changes so we need to update
-                    screen.blit(a.renderedText, a.rectangle) #need to re-blit
+                                for v in wordArray: #check whether that letter is a vowel
+                                    if a.text == v.text: #compare text of clicked letter to the vowel text
+                                        a.color = green
+                                        v.backColor = yellow
+                                        v.update() #made changes so we need to update
+                                        screen.blit(v.renderedText, v.rectangle) #need to re-blit
+                                        lives = lives + 1
+                                a.update() #made changes so we need to update
+                                screen.blit(a.renderedText, a.rectangle) #need to re-blit
                 
 
 
 
     # your code ends here ###############################
-    P.display.flip()  # makes any changes visible on the screen
-    clock.tick(loopRate)  # limits game to frame per second, FPS value
+        P.display.flip()  # makes any changes visible on the screen
+        clock.tick(loopRate)  # limits game to frame per second, FPS value
 
 # out of game loop ###############
 P.quit()   # stops the game engine
