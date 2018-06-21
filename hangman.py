@@ -12,6 +12,7 @@ __status__ = "Development"
 #dependencies
 import pygame as P # accesses pygame files
 import sys  # to communicate with windows
+import time as T
 
 #importing the random module
 import random as r
@@ -142,6 +143,9 @@ while play:  # game loop - note:  everything in this loop is indented one tab
                 if lives <= 0:
                     screen.fill(red)
                     looseSound.play()
+                    T.sleep(10)
+                    play = False
+                    
                     #we need to display you loose
                 elif lives > 0:
                     if event.type == P.MOUSEBUTTONDOWN:
