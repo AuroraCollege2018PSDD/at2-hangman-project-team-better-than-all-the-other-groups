@@ -9,13 +9,12 @@ __version__ = "1.0.1"
 __email__ = "tynan.matthews@education.nsw.com.au"
 __status__ = "Development"
 
-#dependencies
-import pygame as P # accesses pygame files
-import sys  # to communicate with windows
-import time as T
+#import code stuff
+import pygame as P # pygame functions
+import sys  # system functions
+import time as T # Time functions
+import random as r # random functions
 
-#importing the random module
-import random as r
 #opening and reading the file
 try:
     myFile = open("words.txt", "r")
@@ -24,26 +23,24 @@ try:
 except IOError:
     print("bugger, can't locate wordlist")
 
-#determine word & test
+# Grabs a random word from the list
 word = r.choice(wordList)
 #strips the /n off the end so the word length is correct
 word = word.strip()
 
 
-# pygame setup - only runs once
-P.init()  # starts the game engine
-clock = P.time.Clock()  # creates clock to limit frames per second
-loopRate = 60  # sets max speed of main loop
+# the pygame setup (only runs once)
+P.init()  # runs the game engine
+clock = P.time.Clock()  ## creates clock to limit frames per second
+loopRate = 60  # sets the fps
+SCREENSIZE = SCREENWIDTH, SCREENHEIGHT = 1024, 768  # sets the screensize of the window displayed
+screen = P.display.set_mode(SCREENSIZE)  # creates the game window
 
-SCREENSIZE = SCREENWIDTH, SCREENHEIGHT = 1024, 768  # sets size of screen/window
-screen = P.display.set_mode(SCREENSIZE)  # creates window and game screen
-
-DEFAULT_TEXT_SIZE = 48 #a default for any rendered text
+DEFAULT_TEXT_SIZE = 48 #text size variable we can refer to text rendering
 icon = P.image.load('bailey.png')
-P.display.set_icon(icon)
+#sets up the top window bar data 
+P.display.set_icon(icon) 
 P.display.set_caption('Hangman Game')
-#defaultFont = P.font.Font(None,80) #create a font for the letters, default font
-#selectedFont = P.font.Font(None,40) #a smaller font for after the letters have been selected
 
 # set variables for some colours RGB (0-255)
 white = (255, 255, 255)
@@ -55,13 +52,14 @@ blue = (250, 186, 255)
 purple = (128, 0, 128)
 lightBlue = (29, 145, 145)
 
-#clear and fill the screen
+#fills the screen with a blank colour
 screen.fill(yellow)
 #sets the number of lives
 lives = 12
+#sets a variable for a sound
 looseSound = P.mixer.Sound('explosion.wav')
 
-#define necessary classes
+#define necessary classes ## stopped modifying meta data here, need to update from here on
 class renderedLetter(object):
     """letters rendered for display on screen
     
