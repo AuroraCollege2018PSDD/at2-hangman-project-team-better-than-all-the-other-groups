@@ -45,7 +45,7 @@ P.display.set_caption('Hangman Game')
 # set variables for some colours RGB (0-255)
 white = (255, 255, 255)
 black = (0, 0, 0)
-red = (226, 65, 65)
+red = (250, 0, 0)
 yellow = (145, 131, 27)
 green = (0, 255, 0)
 blue = (250, 186, 255)
@@ -55,125 +55,137 @@ lightBlue = (29, 145, 145)
 #fills the screen with a blank colour
 screen.fill(yellow)
 #sets the number of lives
-lives = 12
+lives = 4.9 #when we have to divide it further on, the ends of a int may be rounded
 #sets a variable for a sound
 looseSound = P.mixer.Sound('explosion.wav')
 
-#define necessary classes ## stopped modifying meta data here, need to update from here on
+#Small part of code that renders out the letters
 class renderedLetter(object):
-    """letters rendered for display on screen
+    """Renders the letters so that they can be displayed on the screen
     
-    to be displayer in pygame text has to be 'rendered'
-    to be selectable with a mouse also need to define a rectangle
-    for each letter
+    Before the text can be shown onto the screen each letter has to be
+    individually renderd. Within here we can also control the text colour, size, etc.
     """
     def __init__(self, letter):
-        """ inits the letter"""
         self.text = letter
         self.size = DEFAULT_TEXT_SIZE
         self.color = yellow #text color
-        self.backColor = yellow #text background color
-        self.x = 10 #where across the screen it is drawn
-        self.y = 100 #where down the screen letter is rendered
-        self.font = P.font.SysFont("Lucida Console", self.size) #rendered best with monospace font
-        self.renderedText = self.font.render(self.text,1,self.color,self.backColor) #actually create the rendered text
-        self.rectangle = self.renderedText.get_rect().move(self.x,self.y) #need to know the rectangle of text to interact
+        self.backColor = yellow #the text background color
+        self.x = 10 #x vaule where the ext will be shown on the sceen
+        self.y = 100 #y vaule where the ext will be shown on the sceen
+        self.font = P.font.SysFont("Lucida Console", self.size) #sets font, must be monospaced
+        self.renderedText = self.font.render(self.text,1,self.color,self.backColor) #creates the rendered text
+        self.rectangle = self.renderedText.get_rect().move(self.x,self.y) #Finds the rectangles of the text so that it can be clicked
         
     def update(self):
-        '''  update the rendered text and rectangle after changes
+        '''  udates the rendered text on screen if there are any changes
         '''
-        self.font = P.font.SysFont("Lucida Console", self.size) #rendered best with monospace font
-        self.renderedText = self.font.render(self.text,1,self.color,self.backColor) #actually create the rendered text
-        self.rectangle = self.renderedText.get_rect().move(self.x,self.y) #need to know the rectangle of text to interact
+        self.font = P.font.SysFont("Lucida Console", self.size) #monospace font
+        self.renderedText = self.font.render(self.text,1,self.color,self.backColor) # creates the rendered text
+        self.rectangle = self.renderedText.get_rect().move(self.x,self.y) #Finds the rectangles of the text so that it can be clicked
         
-#define other setup variables
+#other words to be rendered on the screen
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 guessWord = word
+looseWord = "You Loose"
 
-#create arrays to display the rendered letters
-alphabetArray = [] #an initially empty array
+#creates an array for the rendered letters
+alphabetArray = [] #empty array for the alapabet letters to be rendered
 for letter in alphabet:
-    rLetter = renderedLetter(letter) #create an instance of the class renderedLetter
-    alphabetArray.append(rLetter)
+    rLetter = renderedLetter(letter) #Refers back to the class rendered letter
+    alphabetArray.append(rLetter) # joins each letter together
     
-wordArray = [] #an initially empty array
+wordArray = [] #empty array for the letters to be rendered
 for letter in guessWord:
     rLetter = renderedLetter(letter)
     wordArray.append(rLetter)
 
-#draw alphabet letters on the screen
-xPosition = 10 #across
-yPosition = 400 #down
+#displays alphabet letters on the screen
+xPosition = 10 # x axis for alphabet
+yPosition = 400 #y axis for alphabet
 for l in alphabetArray:
-    l.x = xPosition #set the x position of the rendered letter
-    l.y = yPosition #set the y position of the rendered letter
-    l.color = blue #start with letters blue
-    l.backColor = yellow
-    l.update() #changed the properties so need to update
-    screen.blit(l.renderedText,l.rectangle) #tell pygame where to draw next screen is flipped
-    xPosition += (l.rectangle.width + 10) #move the x position to the right so letters not drawn on top of each other
+    l.x = xPosition #set the x position for an individual rendered letter
+    l.y = yPosition #set the y position for an individual rendered letter
+    l.color = white #start with letters white
+    l.backColor = yellow #so the letters blend in
+    l.update() #refers back to the (update) part of the code
+    screen.blit(l.renderedText,l.rectangle) #flips the screen and tells where the next letter will be
+    xPosition += (l.rectangle.width + 10) #sets the postition for the next rendered letter
 
-xPosition = 320
-yPosition = 200
-for l in wordArray:
+xPosition = 320 # x axis for word
+yPosition = 200 # y axis for word
+for l in wordArray: #follows the same steps as the last
     l.x = xPosition
     l.y = yPosition
     l.color = lightBlue
     l.backColor = lightBlue
-    l.size = 2 * DEFAULT_TEXT_SIZE #make the vowels twice as big
+    l.size = 2 * DEFAULT_TEXT_SIZE #make the vowels twice as big as the alphabet
     l.update()
     screen.blit(l.renderedText,l.rectangle)
     xPosition += (l.rectangle.width + 20)
+    
+def looseText():
+    looseArray = [] #empty array for the letters to be rendered
+    for letter in looseWord:
+        rLetter = renderedLetter(letter)
+        looseArray.append(rLetter)
+
+    
+    xPosition = 320 # x axis for word
+    yPosition = 200 # y axis for word
+    
+    for l in looseArray: #follows the same steps as the last
+        l.x = xPosition #set the x position for an individual rendered letter
+        l.y = yPosition #set the y position for an individual rendered letter
+        l.color = black
+        l.backColor = red #so the letters blend in
+        l.update() #refers back to the (update) part of the code
+        screen.blit(l.renderedText,l.rectangle) #flips the screen and tells where the next letter will be
+        xPosition += (l.rectangle.width + 10) #sets the postition for the next rendered letter
 
 
-#everytihng up to here was setting up - now lets play
 
-play = True  # controls whether to keep playing
+play = True  # controls the whole loop
 
-# game loop - runs 'loopRate' times a second!
-while play:  # game loop - note:  everything in this loop is indented one tab
-   
-        for event in P.event.get():  # get user interaction events
-            if event.type == P.QUIT:  # tests if window's X (close) has been clicked
-                play = False  # causes exit of game loop
-    # your code starts here ##############################
+# this game loop should not loop any longer than the set looprate
+while play:
+    for event in P.event.get():  # gets any interactions the user has made
+            if event.type == P.QUIT:  # if the X in the top corner has been clicked, the game will exit
+                play = False  # exit game loop
             elif event.type != P.QUIT:
-                if lives <= 0:
-                    screen.fill(red)
-                    looseSound.play()
-                    T.sleep(10)
-                    play = False
+                if lives <= 0: # breaks the loop if there are no lives
+                    screen.fill(red) # fills the screen red
+                    looseSound.play()# plays the loosing explosion sound
+                    looseText() #refers back to anohter part of the code to render out the text
                     
-                    #we need to display you loose
-                elif lives > 0:
+                    
+
+                elif lives > 0: # starts the main games loop for when there are lives
                     if event.type == P.MOUSEBUTTONDOWN:
-                        mousePosition = P.mouse.get_pos() #find out where they clicked
+                        mousePosition = P.mouse.get_pos() #finds where they clicked
             
-            #need to check all letters to see if they clicked on that letter
+            #Checks which letter was clicked
                         for a in alphabetArray:
                             if a.rectangle.collidepoint(mousePosition): #is the mouse click inside the letters rectangle
                                 a.color = red
-                                lives = lives - 1
+                                 # a life is taken away when a letter is clicked, one is added to equal out if its the same as the word.
                                 
-                    #a.update()
                                 for v in wordArray: #check whether that letter is a vowel
-                                    if a.text == v.text: #compare text of clicked letter to the vowel text
+                                    if a.text == v.text: #if the letter clicked is in the word
                                         a.color = green
                                         v.backColor = yellow
-                                        v.update() #made changes so we need to update
-                                        screen.blit(v.renderedText, v.rectangle) #need to re-blit
-                                        lives = lives + 1
+                                        v.update() #we need to update any changes
+                                        screen.blit(v.renderedText, v.rectangle) #re-blit
+                                    if a.text != v.text:
+                                        lives = lives - 1/len(word) #1 has to be divided by the len word because a loop goes through each letter
                                 a.update() #made changes so we need to update
-                                screen.blit(a.renderedText, a.rectangle) #need to re-blit
+                                screen.blit(a.renderedText, a.rectangle) #re-blit
                 
 
 
+            P.display.flip()  # makes all the changes visable on the screen
+            clock.tick(loopRate)  # limits the loops fps
 
-    # your code ends here ###############################
-        P.display.flip()  # makes any changes visible on the screen
-        clock.tick(loopRate)  # limits game to frame per second, FPS value
-
-# out of game loop ###############
-P.quit()   # stops the game engine
-sys.exit()  # close operating system window
+P.quit()   # quits pygame 
+sys.exit()  # quits the operating system window
 
