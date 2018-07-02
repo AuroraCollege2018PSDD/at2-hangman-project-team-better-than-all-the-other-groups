@@ -17,7 +17,7 @@ import random as r # random functions
 
 #opening and reading the file
 try:
-    myFile = open("words.txt", "r")
+    myFile = open("media/words.txt", "r")
     wordList = myFile.readlines()
     myFile.close()
 except IOError:
@@ -28,7 +28,17 @@ word = r.choice(wordList)
 #strips the /n off the end so the word length is correct
 word = word.strip()
 
-
+#import pictures for loss
+p1 = P.image.load('media/p1.png')
+p2 = P.image.load('media/p2.png')
+p3 = P.image.load('media/p3.png')
+p4 = P.image.load('media/p4.png')
+p5 = P.image.load('media/p5.png')
+p6 = P.image.load('media/p6.png')
+p7 = P.image.load('media/p7.png')
+p8 = P.image.load('media/p8.png')
+monster = P.image.load('media/monster.png')
+P.transform.scale(monster, (100,100)) #attempting to scale monster, doesnt work
 # the pygame setup (only runs once)
 P.init()  # runs the game engine
 clock = P.time.Clock()  ## creates clock to limit frames per second
@@ -37,7 +47,7 @@ SCREENSIZE = SCREENWIDTH, SCREENHEIGHT = 1024, 768  # sets the screensize of the
 screen = P.display.set_mode(SCREENSIZE)  # creates the game window
 
 DEFAULT_TEXT_SIZE = 48 #text size variable we can refer to text rendering
-icon = P.image.load('bailey.png')
+icon = P.image.load('media/bailey.png')
 #sets up the top window bar data 
 P.display.set_icon(icon) 
 P.display.set_caption('Hangman Game')
@@ -56,7 +66,8 @@ lightBlue = (29, 145, 145)
 screen.fill(yellow)
 #sets the number of lives
 lives = 5 #wnumber of lives
-looseSound = P.mixer.Sound('explosion.wav')
+looseSound = P.mixer.Sound('media/explosion.wav')
+winSound = P.mixer.Sound('media/yay.wav')
 
 #Small part of code that renders out the letters
 class renderedLetter(object):
@@ -153,7 +164,7 @@ def looseText():
     
     xPosition = 200 # x axis for word
     yPosition = 100 # y axis for word
-    
+    screen.blit(monster, (200,100))
     for l in looseArray: #follows the same steps as the last
         l.x = xPosition #set the x position for an individual rendered letter
         l.y = yPosition #set the y position for an individual rendered letter
