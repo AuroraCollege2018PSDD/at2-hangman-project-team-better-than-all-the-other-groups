@@ -1,8 +1,0 @@
-duck
-chicken
-cat
-dog
-rooster
-cow
-hippo
-lion
