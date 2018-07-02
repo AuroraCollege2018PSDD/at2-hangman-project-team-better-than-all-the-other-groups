@@ -55,8 +55,7 @@ lightBlue = (29, 145, 145)
 #fills the screen with a blank colour
 screen.fill(yellow)
 #sets the number of lives
-lives = 4.9 #when we have to divide it further on, the ends of a int may be rounded
-#sets a variable for a sound
+lives = 5 #wnumber of lives
 looseSound = P.mixer.Sound('explosion.wav')
 
 #Small part of code that renders out the letters
@@ -88,6 +87,7 @@ class renderedLetter(object):
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 guessWord = word
 looseWord = "You Loose"
+hint = "Hint: animals "
 
 #creates an array for the rendered letters
 alphabetArray = [] #empty array for the alapabet letters to be rendered
@@ -112,7 +112,7 @@ for l in alphabetArray:
     screen.blit(l.renderedText,l.rectangle) #flips the screen and tells where the next letter will be
     xPosition += (l.rectangle.width + 10) #sets the postition for the next rendered letter
 
-xPosition = 320 # x axis for word
+xPosition = 15 # x axis for word
 yPosition = 200 # y axis for word
 for l in wordArray: #follows the same steps as the last
     l.x = xPosition
@@ -124,6 +124,26 @@ for l in wordArray: #follows the same steps as the last
     screen.blit(l.renderedText,l.rectangle)
     xPosition += (l.rectangle.width + 20)
     
+hintArray = [] #empty array for the letters to be rendered
+for letter in hint:
+    rLetter = renderedLetter(letter)
+    hintArray.append(rLetter)
+
+    
+xPosition = 25 # x axis for word
+yPosition = 25 # y axis for word
+    
+for l in hintArray: #follows the same steps as the last
+    l.x = xPosition #set the x position for an individual rendered letter
+    l.y = yPosition #set the y position for an individual rendered letter
+    l.color = black
+    l.backColor = yellow #so the letters blend in
+    l.size = 20 #sets the words size
+    l.update() #refers back to the (update) part of the code
+    screen.blit(l.renderedText,l.rectangle) #flips the screen and tells where the next letter will be
+    xPosition += (l.rectangle.width + 10) #sets the postition for the next rendered letter
+
+    
 def looseText():
     looseArray = [] #empty array for the letters to be rendered
     for letter in looseWord:
@@ -131,21 +151,22 @@ def looseText():
         looseArray.append(rLetter)
 
     
-    xPosition = 320 # x axis for word
-    yPosition = 200 # y axis for word
+    xPosition = 200 # x axis for word
+    yPosition = 100 # y axis for word
     
     for l in looseArray: #follows the same steps as the last
         l.x = xPosition #set the x position for an individual rendered letter
         l.y = yPosition #set the y position for an individual rendered letter
         l.color = black
         l.backColor = red #so the letters blend in
+        l.size = DEFAULT_TEXT_SIZE * 2 #sets the words size
         l.update() #refers back to the (update) part of the code
         screen.blit(l.renderedText,l.rectangle) #flips the screen and tells where the next letter will be
         xPosition += (l.rectangle.width + 10) #sets the postition for the next rendered letter
 
 
 
-play = True  # controls the whole loop
+play = True# controls the whole loop
 
 # this game loop should not loop any longer than the set looprate
 while play:
@@ -168,16 +189,17 @@ while play:
                         for a in alphabetArray:
                             if a.rectangle.collidepoint(mousePosition): #is the mouse click inside the letters rectangle
                                 a.color = red
+                                lives = lives - 1
                                  # a life is taken away when a letter is clicked, one is added to equal out if its the same as the word.
                                 
                                 for v in wordArray: #check whether that letter is a vowel
                                     if a.text == v.text: #if the letter clicked is in the word
                                         a.color = green
                                         v.backColor = yellow
+                                        lives = lives + 1
                                         v.update() #we need to update any changes
                                         screen.blit(v.renderedText, v.rectangle) #re-blit
-                                    if a.text != v.text:
-                                        lives = lives - 1/len(word) #1 has to be divided by the len word because a loop goes through each letter
+        
                                 a.update() #made changes so we need to update
                                 screen.blit(a.renderedText, a.rectangle) #re-blit
                 
