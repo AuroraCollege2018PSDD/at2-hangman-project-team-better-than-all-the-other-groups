@@ -178,17 +178,20 @@ def looseText():
         screen.blit(l.renderedText,l.rectangle) #flips the screen and tells where the next letter will be
         xPosition += (l.rectangle.width + 10) #sets the postition for the next rendered letter
 
-def lifeImages():
-    variableName = 'p' + str(lives)
+def lifeImages(): # sets the images for the lives
+    variableName = 'p' + str(lives) # creates a string name we can refer to for the variable
     image = eval(variableName)
     image = P.transform.scale(image,(525,375)) #scales the image
-    screen.blit(image, (450,25))
+    screen.blit(image, (450,25)) # displays the image
 
+       
+       
+       
 play = True# controls the whole loop
 
 # this game loop should not loop any longer than the set looprate
 while play:
-    lifeImages()
+    
     for event in P.event.get():  # gets any interactions the user has made
             if event.type == P.QUIT:  # if the X in the top corner has been clicked, the game will exit
                 play = False  # exit game loop
@@ -197,12 +200,13 @@ while play:
                     screen.fill(red) # fills the screen red
                     looseText()#refers back to anohter part of the code to render out the text
                     P.display.flip()
-                    T.sleep(10)
+                    T.sleep(5)
                     
                     play = False
                     
 
                 elif lives > 0: # starts the main games loop for when there are lives
+                    lifeImages()
                     if event.type == P.MOUSEBUTTONDOWN:
                         mousePosition = P.mouse.get_pos() #finds where they clicked
             
