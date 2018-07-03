@@ -38,8 +38,9 @@ p6 = P.image.load('media/p6.png')
 p7 = P.image.load('media/p7.png')
 p8 = P.image.load('media/p8.png')
 monster = P.image.load('media/monster.png')
-P.transform.scale(monster, (100,100)) #attempting to scale monster, doesnt work
-# the pygame setup (only runs once)
+
+monster = P.transform.scale(monster,(1000,375)) #scales the image
+
 P.init()  # runs the game engine
 clock = P.time.Clock()  ## creates clock to limit frames per second
 loopRate = 60  # sets the fps
@@ -50,7 +51,7 @@ DEFAULT_TEXT_SIZE = 48 #text size variable we can refer to text rendering
 icon = P.image.load('media/bailey.png')
 #sets up the top window bar data 
 P.display.set_icon(icon) 
-P.display.set_caption('Hangman Game')
+P.display.set_caption('Spelling with Bailey')
 
 # set variables for some colours RGB (0-255)
 white = (255, 255, 255)
@@ -65,7 +66,7 @@ lightBlue = (29, 145, 145)
 #fills the screen with a blank colour
 screen.fill(yellow)
 #sets the number of lives
-lives = 5 #wnumber of lives
+lives = 8 #wnumber of lives
 looseSound = P.mixer.Sound('media/explosion.wav')
 winSound = P.mixer.Sound('media/yay.wav')
 
@@ -99,6 +100,7 @@ alphabet = "abcdefghijklmnopqrstuvwxyz"
 guessWord = word
 looseWord = "You Loose"
 hint = "Hint: animals "
+winWord = 'tynan sucks'
 
 #creates an array for the rendered letters
 alphabetArray = [] #empty array for the alapabet letters to be rendered
@@ -157,14 +159,15 @@ for l in hintArray: #follows the same steps as the last
     
 def looseText():
     looseArray = [] #empty array for the letters to be rendered
-    for letter in looseWord:
+    looseSound.play()# plays the loosing explosion sound
+    for letter in looseWord: 
         rLetter = renderedLetter(letter)
         looseArray.append(rLetter)
 
     
     xPosition = 200 # x axis for word
     yPosition = 100 # y axis for word
-    screen.blit(monster, (200,100))
+    screen.blit(monster, (10,225))
     for l in looseArray: #follows the same steps as the last
         l.x = xPosition #set the x position for an individual rendered letter
         l.y = yPosition #set the y position for an individual rendered letter
@@ -175,21 +178,28 @@ def looseText():
         screen.blit(l.renderedText,l.rectangle) #flips the screen and tells where the next letter will be
         xPosition += (l.rectangle.width + 10) #sets the postition for the next rendered letter
 
-
+def lifeImages():
+    variableName = 'p' + str(lives)
+    image = eval(variableName)
+    image = P.transform.scale(image,(525,375)) #scales the image
+    screen.blit(image, (450,25))
 
 play = True# controls the whole loop
 
 # this game loop should not loop any longer than the set looprate
 while play:
+    lifeImages()
     for event in P.event.get():  # gets any interactions the user has made
             if event.type == P.QUIT:  # if the X in the top corner has been clicked, the game will exit
                 play = False  # exit game loop
             elif event.type != P.QUIT:
                 if lives <= 0: # breaks the loop if there are no lives
                     screen.fill(red) # fills the screen red
-                    looseSound.play()# plays the loosing explosion sound
-                    looseText() #refers back to anohter part of the code to render out the text
+                    looseText()#refers back to anohter part of the code to render out the text
+                    P.display.flip()
+                    T.sleep(10)
                     
+                    play = False
                     
 
                 elif lives > 0: # starts the main games loop for when there are lives
