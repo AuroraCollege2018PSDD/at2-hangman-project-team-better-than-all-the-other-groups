@@ -38,6 +38,7 @@ p6 = P.image.load('media/p6.png')
 p7 = P.image.load('media/p7.png')
 p8 = P.image.load('media/p8.png')
 monster = P.image.load('media/monster.png')
+smile = P.image.load('media/smileSwanky.png')
 
 monster = P.transform.scale(monster,(1000,375)) #scales the image
 
@@ -99,9 +100,9 @@ class renderedLetter(object):
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 guessWord = word
 looseWord = "You Loose"
-hint = "Hint: animals "
-winWord = 'tynan sucks'
-
+hint = "Hint: Animals "
+winWord = 'You Win!'
+count = 0
 #creates an array for the rendered letters
 alphabetArray = [] #empty array for the alapabet letters to be rendered
 for letter in alphabet:
@@ -184,6 +185,27 @@ def lifeImages(): # sets the images for the lives
     image = P.transform.scale(image,(525,375)) #scales the image
     screen.blit(image, (450,25)) # displays the image
 
+def winScreen():
+    xPosition = 200 # x axis for word
+    yPosition = 100 # y axis for word
+    screen.fill(green)
+    screen.blit(smile, (350,255))
+    winArray = [] #empty array for the letters to be rendered
+    for letter in winWord:
+        rLetter = renderedLetter(letter)
+        winArray.append(rLetter)
+
+    
+    
+    for l in winArray: #follows the same steps as the last
+        l.x = xPosition #set the x position for an individual rendered letter
+        l.y = yPosition #set the y position for an individual rendered letter
+        l.color = black
+        l.backColor = green #so the letters blend in
+        l.size = DEFAULT_TEXT_SIZE * 2 #sets the words size
+        l.update() #refers back to the (update) part of the code
+        screen.blit(l.renderedText,l.rectangle) #flips the screen and tells where the next letter will be
+        xPosition += (l.rectangle.width + 10) #sets the postition for the next rendered letter
        
        
        
@@ -203,7 +225,13 @@ while play:
                     T.sleep(5)
                     
                     play = False
+                elif count == len(word):
+                    winScreen()
+                    P.display.flip()
+                    winSound.play()
+                    T.sleep(5)
                     
+                    play = False
 
                 elif lives > 0: # starts the main games loop for when there are lives
                     lifeImages()
@@ -221,6 +249,7 @@ while play:
                                     if a.text == v.text: #if the letter clicked is in the word
                                         a.color = green
                                         v.backColor = yellow
+                                        count = count + 1
                                         lives = lives + 1
                                         v.update() #we need to update any changes
                                         screen.blit(v.renderedText, v.rectangle) #re-blit
